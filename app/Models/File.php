@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 class File extends Model
 {
-    use Fileable,HasUuids;
+    use Fileable,HasUuids,HasUuids;
     protected $fillable = ['file_path', 'file_type','file_auth','file_name','file_size','purpose','child_id','user_id','file_hits'];
     protected $casts = ['created_at'=>'datetime'];
 
