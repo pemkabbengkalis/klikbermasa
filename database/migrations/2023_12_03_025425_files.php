@@ -16,7 +16,6 @@ return new class extends Migration
                 $table->string('file_path');
                 $table->string('file_type');
                 $table->string('file_name')->index();
-                $table->string('host')->index();
                 $table->string('purpose')->index()->nullable();
                 $table->string('child_id')->index()->nullable();
                 $table->uuid('file_size')->nullable();
