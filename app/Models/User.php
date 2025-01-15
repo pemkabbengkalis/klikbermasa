@@ -21,6 +21,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'nik',
         'name',
         'email',
         'username',
@@ -77,11 +78,6 @@ class User extends Authenticatable
     public function tokens(): object
     {
         return $this->morphMany(Sanctum::$personalAccessTokenModel, 'tokenable');
-    }
-
-    public function getNikAttribute()
-    {
-        return $this->user_data['nik'] ?? null;
     }
 
     public function getNoHpAttribute()

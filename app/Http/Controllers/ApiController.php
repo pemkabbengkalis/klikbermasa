@@ -76,10 +76,10 @@ class ApiController extends Controller
     }
     public function login(Request $request)
     {
-        $credentials=$request->only('email', 'password');
-        $cekuser = User::where(['email'=>$request->email])->first();
+        $credentials=$request->only('nik', 'password');
+        $cekuser = User::where(['nik'=>$request->nik])->first();
         if(!$cekuser){
-            return response()->json(['status'=>false,'pesan'=>'Email tidak terdaftar']);
+            return response()->json(['status'=>false,'pesan'=>'nik tidak terdaftar']);
         }
         elseif(!Hash::check($request->password, $cekuser->password)){
             return response()->json(['status'=>false,'pesan'=>'Password salah']);

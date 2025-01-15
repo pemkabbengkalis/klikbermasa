@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->Uuid('id')->primary();
             $table->string('name')->nullable();
+            $table->string('nik')->unique();
             $table->foreignUuid('instansi_id')->nullable()->default(null);
             $table->string('level')->nullable();
             $table->string('active_session')->nullable();
