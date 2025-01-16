@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('status')->nullable();
             $table->string('last_login_ip')->nullable();
             $table->string('last_login_time')->nullable();
-            $table->string('email')->unique();
+            $table->string('email')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('username')->nullable();
             $table->string('password');

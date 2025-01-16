@@ -18,10 +18,9 @@ class ApiController extends Controller
     public function register(Request $request) {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|regex:/^[a-zA-Z\s]*$/|max:255',
-            'email' => 'required|email|unique:users,email,NULL,id,deleted_at,NULL',
+            'nik' => 'required|string|unique:users,nik,NULL,id,deleted_at,NULL',
             'password' => 'required|string|min:6',
             'validate_password' => 'required|string|same:password|min:6',
-            'no_hp' => 'required|digits_between:10,13'
         ]);
         $validator->getTranslator()->setLocale('id');
         if ($validator->fails()) {
@@ -31,7 +30,7 @@ class ApiController extends Controller
         $request->merge([
             'password' => $request->password,
             'level' => 'user',
-            'status' => 1,
+            'status' => 'active',
             'user_data' => $request->only('no_hp')
         ]);
 
