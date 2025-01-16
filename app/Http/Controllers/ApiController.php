@@ -31,7 +31,6 @@ class ApiController extends Controller
             'password' => $request->password,
             'level' => 'user',
             'status' => 'active',
-            'user_data' => $request->only('no_hp')
         ]);
 
         if ($user = User::create($request->all())) {
