@@ -17,7 +17,7 @@ class WebMiddleware
     public function handle(Request $request, Closure $next): Response
     {
 
-        if(app()->environment('production')){
+        if(!in_array(request()->ip(), [':::1','127.0.0.1'])){
         abort_if( (Route::currentRouteName() == 'login' || $request->is('/')) && $request->getHost() == api_url(),'403','dffd');
 
         if($request->segment(1) == 'api' || Route::currentRouteName() == 'stream' ){

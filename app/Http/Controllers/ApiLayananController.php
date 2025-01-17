@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Layanan;
 use App\Models\Kategori;
 use App\Models\ApiLayanan;
 use Illuminate\Http\Request;
@@ -15,7 +16,12 @@ class ApiLayananController extends Controller
     {
         if($request->detail_layanan){
             return $this->detail_layanan($request);
-        }else{
+        }
+        elseif($request->detail_informasi){
+            return $this->detail_informasi($request);
+
+        }
+        else{
             return $this->list_layanan($request);
         }
     }
@@ -63,7 +69,18 @@ class ApiLayananController extends Controller
         return response()->json($list);
 
     }
-
+    function detail_informasi($request){
+        $query = Layanan::find($request->detail_informasi);
+        if(empty($query)){
+            $data['code'] = 404;
+            $data['status'] = "Not Found";
+            } else {
+                $data['code'] = 200;
+                $data['status'] = "success";
+                $data['data'] = ['icon'=>'https://'.api_url($query->icon),'nama'=> $query->nama,'keterangan'=>$query->deskripsi] ;
+            }
+            return $data;
+    }
     function detail_layanan($request) {
         $query = Kategori::with('instansi.layanan')->orderBy('sort')->find($request->detail_layanan);
         if(empty($query)){
