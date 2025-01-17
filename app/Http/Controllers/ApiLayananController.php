@@ -42,7 +42,7 @@ class ApiLayananController extends Controller
             $i['sort'] = $row->sort;
             array_push($list['data']['list_layanan'], $i);
 
-            foreach($row->instansi->layanan->where('display_to_home',1) as $r){
+            foreach($row->instansi->layanan->where('display_to_home',1)->where('status_layanan','published') as $r){
                 if($r->jenis=='INFORMASI'){
                     $a['id'] = $r->id;
                     $a['icon'] = 'https://'.api_url($r->icon);
@@ -70,7 +70,7 @@ class ApiLayananController extends Controller
 
     }
     function detail_informasi($request){
-        $query = Layanan::find($request->detail_informasi);
+        $query = Layanan::published()->find($request->detail_informasi);
         if(empty($query)){
             $data['code'] = 404;
             $data['status'] = "Not Found";
