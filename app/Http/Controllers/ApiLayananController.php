@@ -31,7 +31,7 @@ class ApiLayananController extends Controller
             $i['icon'] = 'https://'.api_url($row->icon);
             $i['name'] = $row->nama;
             $a['jenis'] = $row->jenis;
-            $i['api_link'] = api_url('api/layanan?detail_layanan='.$row->id);
+            $i['api_link'] = 'https://'.api_url('/api/layanan?detail_layanan='.$row->id);
             $i['target'] = null;
             $i['sort'] = $row->sort;
             array_push($list['data']['list_layanan'], $i);
@@ -69,7 +69,7 @@ class ApiLayananController extends Controller
                 $i['nama'] = $row->nama;
                 $i['keterangan'] = $row->deskripsi;
                 $i['jenis'] = $row->jenis;
-                $i['api_link'] = in_array($row->jenis, ['API', 'FORM']) ? url('api/layanana?detail_layanan=' . $row->id) : $row->link;
+                $i['api_link'] = in_array($row->jenis, ['API', 'FORM']) ? 'https://'.api_url('/api/layanana?detail_layanan=' . $row->id) : $row->link;
                 array_push($data['data']['list_layanan'], $i);
             }
         }
