@@ -17,10 +17,11 @@ class WebMiddleware
     public function handle(Request $request, Closure $next): Response
     {
 
-        abort_if( (Route::currentRouteName() == 'login' || $request->is('/')) && $request->getHost() == api_url(),'403');
+        abort_if( (Route::currentRouteName() == 'login' || $request->is('/')) && $request->getHost() == api_url(),'403','dffd');
 
         if($request->segment(1) == 'api' || Route::currentRouteName() == 'stream' ){
-            abort_if( $request->getHost() != api_url(),'404','Not Found');
+            abort_if($request->segment(1) == 'api' && $request->getHost() != api_url(),'404','Not Found');
+            abort_if(  Route::currentRouteName() == 'stream' && $request->getHost() != api_url() && !auth()->check(),'404','Not Found');
         }
 
         return $next($request);
