@@ -53,7 +53,7 @@ class ApiLayananController extends Controller
     }
 
     function detail_layanan($request) {
-        $query = Kategori::with('instansi.layanan')->orderBy('sort')->find($request->id_layanan);
+        $query = Kategori::with('instansi.layanan')->orderBy('sort')->find($request->detail_layanan);
         if(empty($query)){
         $data['code'] = 404;
         $data['status'] = "Not Found";

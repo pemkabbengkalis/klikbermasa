@@ -16,7 +16,10 @@ class WebMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if($request->segment(1) == 'api' || Route::currentRouteName() == 'stream'){
+
+        abort_if( (Route::currentRouteName() == 'login' || $request->is('/')) && $request->getHost() == api_url(),'403');
+
+        if($request->segment(1) == 'api' || Route::currentRouteName() == 'stream' ){
             abort_if( $request->getHost() != api_url(),'404','Not Found');
         }
 
