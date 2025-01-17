@@ -49,7 +49,17 @@ class Panel
                 ]
             ]);
         }
-
+        if ($request->is($version . '/user') || $request->is($version . '/user/*/edit') || $request->is($version . '/user/create')) {
+            config([
+                'menu.active' => [
+                    'name' => 'Pengguna',
+                    'title' => $this->crud_type($request->segment(4)).' Pengguna',
+                    'path' => 'pengguna',
+                    'description' => 'Menu untuk mengelola Pengguna',
+                    'icon' => 'fa-user',
+                ]
+            ]);
+        }
         return $next($request);
     }
 

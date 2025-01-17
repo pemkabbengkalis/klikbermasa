@@ -54,6 +54,12 @@
             </a>
         </li>
         <li>
+            <a class="app-menu__item  {{ config('menu.active.path') =='instansi' ? 'active':'' }}" href="{{ route('user.index') }}">
+                <i class="app-menu__icon bi bi-people"></i>
+                <span class="app-menu__label">Pengguna</span>
+            </a>
+        </li>
+        <li>
             <a class="app-menu__item {{ config('menu.active.path') =='setting' ? 'active':'' }}" href="{{ route('setting') }}">
                 <i class="app-menu__icon bi bi-gear"></i>
                 <span class="app-menu__label">Pengaturan</span>

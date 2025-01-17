@@ -30,7 +30,7 @@ Route::match(['post', 'get'], 'media/{slug}', [FileManagerController::class, 'st
 Route::prefix('v1')->middleware(['auth','panel'])->group(function () {
  Route::get('dashboard',[DashboardController::class,'index'])->name('dashboard');
  Route::get('setting',[DashboardController::class,'setting'])->name('setting');
- Route::resource('user',UserController::class);
+ Route::resource('user',UserController::class)->except('create');
  Route::resource('instansi',InstansiController::class);
  Route::resource('layanan',LayananController::class);
  Route::resource('banner',BannerController::class);

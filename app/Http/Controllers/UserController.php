@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use Yajra\DataTables\Facades\DataTables;
-use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
 class UserController extends Controller implements HasMiddleware
 {
@@ -25,7 +26,10 @@ class UserController extends Controller implements HasMiddleware
      */
     public function index()
     {
-        dd('dff');
+        if(request()->ajax()){
+            return $this->data(request());
+        }
+        return view('backend.users.index');
     }
 
     /**
@@ -33,21 +37,27 @@ class UserController extends Controller implements HasMiddleware
      */
     public function data(Request $request)
     {
-        return DataTables::of(User::query()->withwhereHas('instansi')->whereLevel('instansi'))
+        $data = User::whereLevel('user');
+        return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('aksi', function ($row) {
                 $button = '<div class="btn-group">';
-                $button .= '<a href="' . route('users.edit', $row->id) . '" class="btn btn-sm btn-warning bi bi-pencil-square"> </a>';
-                $button .= '<button class="btn btn-sm btn-danger bi bi-trash" onclick="sw_delete(\'' . $row->id . '\')"></button>';
+                $button .= '<a href="' . route('user.edit', $row->id) . '" class="btn btn-sm btn-warning bi bi-pencil-square"> </a>';
+
+                $button .= Route::has('user.destroy') ? '<a class="btn btn-sm btn-danger bi bi-trash" onclick="if(confirm(\'Hapus data ini \')){ deldata(\''.$row->id.'\');} "></a>' : '';
                 $button .= '</div>';
                 return $button;
+            })
+            ->addColumn('last_login_time', function ($row) {
+                return '<code>Waktu : '.$row->last_login_at.'<br>IP : '.$row->last_lagin_ip.'</code>';
             })
             ->addColumn('status', function ($row) {
                 return $row->status == '1' ? '<span class="badge bg-success">Aktif</span>' : '<span class="badge bg-danger">Nonaktif</span>';
         })
-        ->rawColumns(['aksi','status'])
+        ->rawColumns(['aksi','status','last_login_time'])
         ->toJson();
     }
+
 
     public function create() {
         $data = [

@@ -4,33 +4,33 @@
     <div class="col-md-12">
 
         <div class="tile pt-3">
-            <h6 class="tile-title mb-3 mt-0"><span  style="font-size:18px">{{config('module.page.form_title')}}</span> </h6>
-            <form class="form-horizontal border-top" action="{{ $data ? route(get_module().'.update',$data->id) : route(get_module().'.store')}}" method="post">
+            <h6 class="tile-title mb-3 mt-0"><span  style="font-size:18px">{{config('menu.active.title')}}</span> </h6>
+            <form class="form-horizontal border-top" action="{{ $data ? route('user.update',$data->id) : route('user.store')}}" method="post">
                 @csrf
                 @if($data)
                 @method('PUT')
                 @endif
             <div class="tile-body pt-3">
-            @if(!$data)
-
-            <div class="mb-3 row">
-                    <label class="form-label col-md-2">Instansi</label>
-                    <div class="col-md-10">
-                      <select name="instansi_id" id="" class="form-control form-control-select">
-                        <option value="">--pilih instansi--</option>
-                        @foreach(\App\Models\Instansi::doesntHave('user')->get() as $row)
-                        <option value="{{$row->id}}"> {{$row->nama}}</option>
-                        @endforeach
-                      </select>
-                    </div>
-                  </div>
-                  @endif
+                @foreach(json_decode(json_encode(config('master.user_data'))) as $row)
                 <div class="mb-3 row">
-                    <label class="form-label col-md-2">Nama User</label>
+                    <label class="form-label col-md-2">{{ str($row->field)->upper() }}</label>
+                    <div class="col-md-10">
+                        @if($row->type=='file')
+                        @if($data)
+                        <img src="{{ isset(json_decode(json_encode($data->user_data),true)[$row->field]) ? json_decode(json_encode($data->user_data),true)[$row->field] : '/noimage.webp' }}" height="100" alt="">
+                        @endif
+                        @else
+                      <input class="form-control" type="text" name="name" value="{{$data?->name}}" placeholder="Masukkan {{ str($row->field)->headline() }}">
+                        @endif
+                    </div>
+                </div>
+                @endforeach
+                <div class="mb-3 row">
+                    <label class="form-label col-md-2">Nama Lengkap</label>
                     <div class="col-md-10">
                       <input class="form-control" type="text" name="name" value="{{$data?->name}}" placeholder="Masukkan Nama User">
                     </div>
-                  </div>
+                </div>
                   <div class="mb-3 row">
                     <label class="form-label col-md-2">Email</label>
                     <div class="col-md-10">
@@ -61,7 +61,7 @@
             <div class="tile-footer border-top-none text-end">
               <div class="row">
                 <div class="col-md-12 ">
-                  <div class="btn-group"><button class="btn btn-primary btn-sm" type="submit"><i class="bi bi-check-circle-fill me-2"></i> Simpan</button><a href="{{route(get_module())}} " class="btn btn-sm btn-danger"> <i class="bi bi-arrow-counterclockwise"></i> Batal</a></div>
+                  <div class="btn-group"><button class="btn btn-primary btn-sm" type="submit"><i class="bi bi-check-circle-fill me-2"></i> Simpan</button><a href="{{route('user.index')}} " class="btn btn-sm btn-danger"> <i class="bi bi-arrow-counterclockwise"></i> Batal</a></div>
                 </div>
               </div>
             </div>

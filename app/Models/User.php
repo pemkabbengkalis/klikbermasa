@@ -53,10 +53,6 @@ class User extends Authenticatable
         'id' => 'string',
         'user_data' => 'array',
     ];
-    public function file()
-    {
-        return $this->morphOne(File::class, 'fileable');
-    }
     public function instansi(){
         return $this->belongsTo(Instansi::class);
     }

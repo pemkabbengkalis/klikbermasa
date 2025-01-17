@@ -7,8 +7,8 @@
             aaSorting: [],
 
             ajax: {
-                type: "POST",
-                url: "{{ route(get_module().'.datatable') }}",
+                type: "GET",
+                url: "{{ route('user.index') }}",
                 data: { _token: "{{csrf_token()}}"},
 
             },
@@ -22,9 +22,9 @@
                     orderable: false,
                     searchable: false
                 },
-               {
-                    data: 'instansi.nama',
-                    name: 'instansi.nama',
+                {
+                    data: 'nik',
+                    name: 'nik',
                     orderable: true,
                     searchable: true
                 },
@@ -40,19 +40,7 @@
                     orderable: true,
                     searchable: true
                 },
-                {
-                    data: 'username',
-                    name: 'username',
-                    orderable: true,
-                    searchable: true
-                },
 
-                {
-                    data: 'last_login_ip',
-                    name: 'last_login_ip',
-                    orderable: true,
-                    searchable: true
-                },
                 {
                     data: 'last_login_time',
                     name: 'last_login_time',
