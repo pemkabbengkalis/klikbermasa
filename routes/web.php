@@ -13,7 +13,7 @@ use App\Http\Controllers\DataPengajuanLayananController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::get('/',function(){
-return  str()->uuid();
+return  to_route('login');
 });
 Route::controller(LoginController::class)->group(function ()  {
     Route::get('login', 'loginForm')->name('login');
