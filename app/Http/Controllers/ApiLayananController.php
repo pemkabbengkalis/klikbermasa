@@ -36,7 +36,7 @@ class ApiLayananController extends Controller
             $i['id'] = $row->id;
             $i['icon'] = 'https://'.api_url($row->icon);
             $i['name'] = $row->nama;
-            $a['jenis'] = $row->jenis;
+            $i['jenis'] = $row->jenis;
             $i['api_link'] = 'https://'.api_url('/api/layanan?detail_layanan='.$row->id);
             $i['target'] = null;
             $i['sort'] = $row->sort;
