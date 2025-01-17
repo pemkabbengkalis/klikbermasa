@@ -43,7 +43,7 @@ class LayananController extends Controller
                 return '<img src="'.$icon.'" height="60">';
             })
             ->addColumn('nama', function ($q) {
-                return $q->nama . '<br><small class="text-muted"><b>' . $q->instansi->nama .'</b><br><i>'.$q->deskripsi. '</i></small>';
+                return $q->nama . '<br><small class="text-muted"><b>' . $q->instansi->nama .'</b><br><i>'.str($q->deskripsi)->limit(150,'...'). '</i></small>';
             })
             ->addColumn('status', function ($q) {
                 return $q->status_layanan == 'pending' ? '<span class="badge bg-warning">TUNDA</span>' : '<span class="badge bg-success">PUBLIK</span>';
