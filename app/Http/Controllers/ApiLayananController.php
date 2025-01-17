@@ -49,7 +49,7 @@ class ApiLayananController extends Controller
                     $a['nama'] = $r->nama;
                     $a['jenis'] = $r->jenis;
                     $a['api_link'] = 'https://'.api_url('/api/layanan?detail_informasi='.$r->id);;
-                    $a['target'] = '_blank';
+                    $a['target'] = null;
                     $a['sort'] = 100;
                     array_push($list['data']['list_layanan'], $a);
                 }else{
