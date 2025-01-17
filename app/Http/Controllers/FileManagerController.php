@@ -1,9 +1,10 @@
 <?php
 namespace App\Http\Controllers;
+use App\Models\File;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\File;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -66,7 +67,7 @@ class FileManagerController extends Controller implements HasMiddleware
                 return null;
         });
         abort_if(empty($media) || !Storage::exists($media->file_path),404);
-        abort_if(request()->getHost() != image_url() && !auth()->check(), 403, 'You need to be logged in to access this resource.');
+        abort_if(request()->getHost() != api_url() && !auth()->check(), 403, 'You need to be logged in to access this resource.');
 
         $auth = $media->file_auth;
         if ($auth === null) {

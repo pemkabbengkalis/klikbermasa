@@ -53,7 +53,7 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
-    'image_url' => env('APP_IMAGE_URL', 'http://image.localhost'),
+    'api_url' => env('APP_API_URL', 'http://image.localhost'),
 
     /*
     |--------------------------------------------------------------------------

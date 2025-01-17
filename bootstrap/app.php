@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\Panel;
+use App\Http\Middleware\WebMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -17,7 +18,15 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'panel' => Panel::class
         ]);
+        $middleware->web(append: [
+            WebMiddleware::class,
+        ]);
+
+        $middleware->api(prepend: [
+            WebMiddleware::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();
+//Route::currentRouteName() != 'streamedia'

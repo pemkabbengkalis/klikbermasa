@@ -28,17 +28,17 @@ class ApiLayananController extends Controller
         foreach($data as $row){
 
             $i['id'] = $row->id;
-            $i['icon'] = 'http://'.image_url($row->icon);
+            $i['icon'] = 'https://'.api_url($row->icon);
             $i['name'] = $row->nama;
             $a['jenis'] = $row->jenis;
-            $i['api_link'] = url('api/layanan/detail/'.$row->id);
+            $i['api_link'] = api_url('api/layanan?detail_layanan='.$row->id);
             $i['target'] = null;
             $i['sort'] = $row->sort;
             array_push($list['data']['list_layanan'], $i);
 
             foreach($row->instansi->layanan->where('display_to_home',1) as $r){
                 $a['id'] = $r->id;
-                $a['icon'] = 'http://'.image_url($r->icon);
+                $a['icon'] = 'https://'.api_url($r->icon);
                 $a['nama'] = $r->nama;
                 $a['jenis'] = $row->jenis;
                 $a['api_link'] = $r->link;
@@ -65,11 +65,11 @@ class ApiLayananController extends Controller
             $data['data']['list_layanan'] = array();
             foreach ($query->instansi->layanan->where('status_layanan','published') as $row) {
                 $i['id'] = $row->id;
-                $i['icon'] = 'http://'.image_url($row->icon);
+                $i['icon'] = 'https://'.api_url($row->icon);
                 $i['nama'] = $row->nama;
                 $i['keterangan'] = $row->deskripsi;
                 $i['jenis'] = $row->jenis;
-                $i['api_link'] = in_array($row->jenis, ['API', 'FORM']) ? url('api/layanan/pengajuan/' . $row->id) : $row->link;
+                $i['api_link'] = in_array($row->jenis, ['API', 'FORM']) ? url('api/layanana?detail_layanan=' . $row->id) : $row->link;
                 array_push($data['data']['list_layanan'], $i);
             }
         }
