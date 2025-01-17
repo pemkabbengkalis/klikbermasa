@@ -84,6 +84,7 @@
                     </div>
                   </div>
                 @if($data)
+                @if($data->jenis=='APLIKASI' || $data->jenis=='INFORMASI')
                 @if($data->jenis=='APLIKASI')
                 <div class="mb-3 row">
                     <label class="form-label col-md-2">Link Aplikasi</label>
@@ -91,6 +92,7 @@
                       <input class="form-control"  name="link" type="text" placeholder="Masukkan Url Aplikasi" value="{{$data?->link}}">
                     </div>
                   </div>
+                  @endif
                   <div class="mb-3 row">
                     <label class="form-label col-md-2">Tampil Dihalaman Utama</label>
                     <div class="col-md-10">

@@ -134,7 +134,7 @@ class LayananController extends Controller
                 'status_layanan' => $request->user()->isAdmin() ? 'required|string' : 'nullable',
                 'deskripsi' => 'required|string',
                 'jenis' => 'required|string',
-                'link' => $layanan->jenis == 'APLIKASI' ? 'required|url' : 'nullable',
+                'link' => $layanan->jenis == 'APLIKASI' ? 'nullable|url' : 'nullable',
                 'display_to_home' => 'nullable|numeric',
                 'file' => 'nullable|image|mimes:jpg,png,jpeg,gif|max:2048',
         ]);

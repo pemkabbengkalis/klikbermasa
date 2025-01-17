@@ -37,15 +37,27 @@ class ApiLayananController extends Controller
             array_push($list['data']['list_layanan'], $i);
 
             foreach($row->instansi->layanan->where('display_to_home',1) as $r){
+                if($r->jenis=='INFORMASI'){
+                    $a['id'] = $r->id;
+                    $a['icon'] = 'https://'.api_url($r->icon);
+                    $a['nama'] = $r->nama;
+                    $a['jenis'] = $r->jenis;
+                    $a['api_link'] = 'https://'.api_url('/api/layanan?detail_informasi='.$r->id);;
+                    $a['target'] = '_blank';
+                    $a['sort'] = 100;
+                    array_push($list['data']['list_layanan'], $a);
+                }else{
+
                 $a['id'] = $r->id;
                 $a['icon'] = 'https://'.api_url($r->icon);
                 $a['nama'] = $r->nama;
-                $a['jenis'] = $row->jenis;
+                $a['jenis'] = $r->jenis;
                 $a['api_link'] = $r->link;
                 $a['target'] = '_blank';
                 $a['sort'] = 100;
                 array_push($list['data']['list_layanan'], $a);
             }
+        }
         }
         $list['data']['list_layanan'] = collect($list['data']['list_layanan'])->sortBy('sort');
         return response()->json($list);
