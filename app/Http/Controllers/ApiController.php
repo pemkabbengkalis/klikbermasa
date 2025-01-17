@@ -18,9 +18,8 @@ class ApiController extends Controller
     public function register(Request $request) {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|regex:/^[a-zA-Z\s]*$/|max:255',
-            'nik' => 'required|string|unique:users,nik,NULL,id,deleted_at,NULL',
-            'password' => 'required|string|min:6',
-            'validate_password' => 'required|string|same:password|min:6',
+            'nik' => 'required|numeric|digits:16|unique:users,nik,NULL,id,deleted_at,NULL',
+            'password' => 'required|string|min:6|confirmed',
         ]);
         $validator->getTranslator()->setLocale('id');
         if ($validator->fails()) {
@@ -41,14 +40,10 @@ class ApiController extends Controller
     }
     public function store_profil(Request $request) {
         $validator = Validator::make($request->all(), [
-            'nik' => 'required|numeric|digits:16',
-            'jenis_kelamin' => 'required|string',
-            'tempat_lahir' => 'required|string',
-            'tanggal_lahir' => 'required|date|date_format:Y-m-d',
-            'alamat' => 'required|string',
-            'kelurahan' => 'required|string',
-            'kecamatan' => 'required|string',
-            'ktp' => 'required'
+            'no_kk' => 'required|numeric|digits:16',
+            'no_hp' => 'required|numeric|digits_between:10,13',
+            'jenis_kelamin' => 'required|in:L,P',
+            'gambar_ktp' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
         $validator->getTranslator()->setLocale('id');
         if ($validator->fails()) {
@@ -56,16 +51,22 @@ class ApiController extends Controller
         }
 
         $request->merge([
-            'user_data' => $request->only('nik','jenis_kelamin','tempat_lahir','tanggal_lahir','alamat','kelurahan','kecamatan')
+            'user_data' => $request->only('no_kk','no_hp','jenis_kelamin')
         ]);
         $user = User::find(auth()->user()->id);
         if ($user->update($request->all())) {
-            $user->file()->updateOrCreate(['keterangan'=>'ktp'],[
-                'keterangan'                  => 'ktp',
-                'data'                      =>  [
-                    'disk'      => config('filesystems.default'),
-                    'target'    => Storage::putFile('users/ktp/'.date('Y').'/'.date('m').'/'.date('d'),$request->file('ktp')),
-                ]
+            // /media/lsdkjfjhsdfsdf.jpg
+           $fname =  $user->addFile([
+                'purpose'                  => 'gambar_ktp',
+                'file'                      => $request->file('gambar_ktp'),
+                'mime_type'=>['image/jpeg','image/png'],
+            ]);
+            $user->update([
+                'user_data' => array_merge(
+                    $user->user_data ?? [], 
+                    $request->get('user_data'),
+                    ['gambar_ktp' => $fname]
+                )
             ]);
             return response()->json(['status' => true, 'message' => 'Data berhasil disimpan']);
         }

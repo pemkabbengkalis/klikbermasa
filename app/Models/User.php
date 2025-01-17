@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Traits\Fileable;
 use Laravel\Sanctum\Sanctum;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -13,7 +14,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable,HasUuids,SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable,HasUuids,SoftDeletes,Fileable;
 
     /**
      * The attributes that are mass assignable.
@@ -27,6 +28,7 @@ class User extends Authenticatable
         'username',
         'password',
         'level',
+
         'instansi_id',
         'user_data',
         'last_login_ip',
@@ -53,6 +55,10 @@ class User extends Authenticatable
         'id' => 'string',
         'user_data' => 'array',
     ];
+    public function getKtpAttribute()
+    {
+        return '/media/'.basename($this->files()->where('purpose','ktp')->first()?->file_path);
+    }
     public function instansi(){
         return $this->belongsTo(Instansi::class);
     }
