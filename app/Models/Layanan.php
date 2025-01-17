@@ -22,7 +22,7 @@ class Layanan extends Model
     public function api(){
         return $this->hasMany(ApiLayanan::class);
     }
-    public function scopeByPublished($query){
+    public function scopePublished($query){
         return $query->where('status_layanan', 'published');
     }
     public function instansi(){
