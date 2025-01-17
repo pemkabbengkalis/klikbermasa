@@ -35,9 +35,6 @@ class LayananController extends Controller
                 $button .= '</div>';
                 return $button;
             })
-            ->addColumn('kategori', function ($q) {
-                return $q->kategori?->nama;
-            })
             ->addColumn('icon', function ($q) {
                 $icon = $q->icon && media_exists($q->icon) ? $q->icon : '/noimage.webp';
                 return '<img src="'.$icon.'" height="60">';

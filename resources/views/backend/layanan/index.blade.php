@@ -17,7 +17,6 @@
                   <th width="30px" >No</th>
                   <th width="10px">Icon</th>
                   <th>Nama</th>
-                  <th width="10px">Kategori</th>
                   <th width="10px">Jenis</th>
                   <th width="10px">Pengajuan</th>
                   <th width="10px">Hits</th>
