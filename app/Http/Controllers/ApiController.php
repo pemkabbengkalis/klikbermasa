@@ -19,8 +19,7 @@ class ApiController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|regex:/^[a-zA-Z\s]*$/|max:255',
             'nik' => 'required|numeric|digits:16|unique:users,nik,NULL,id,deleted_at,NULL',
-            'password' => 'required|string|min:6',
-            'validate_password' => 'required|string|same:password|min:6',
+            'password' => 'required|string|min:6|confirmed',
         ]);
         $validator->getTranslator()->setLocale('id');
         if ($validator->fails()) {
