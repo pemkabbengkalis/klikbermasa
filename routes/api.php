@@ -7,8 +7,8 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::post('login',[App\Http\Controllers\ApiController::class,'login'])->name('login');
-Route::post('register',[App\Http\Controllers\ApiController::class,'register'])->name('register');
+Route::match(['get', 'post'],'login',[App\Http\Controllers\ApiController::class,'login'])->name('login');
+Route::match(['get', 'post'],'register',[App\Http\Controllers\ApiController::class,'register'])->name('register');
 Route::get('layanan',[App\Http\Controllers\ApiLayananController::class,'index']);
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
