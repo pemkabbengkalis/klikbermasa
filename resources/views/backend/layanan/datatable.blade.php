@@ -34,12 +34,7 @@
                     orderable: false,
                     searchable: true
                 },
-                {
-                    data: 'kategori',
-                    name: 'kategori',
-                    orderable: false,
-                    searchable: true
-                },
+
                 {
                     data: 'jenis',
                     name: 'jenis',
