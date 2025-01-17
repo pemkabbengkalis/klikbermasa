@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Instansi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -24,7 +25,7 @@ class InstansiController extends Controller
 
     public function data($request)
     {
-        $query = Instansi::query();
+        $query = Instansi::with('kategori','layanan');
         return DataTables::of($query)
             ->addIndexColumn()
             ->addColumn('logo', function ($q) {
@@ -34,7 +35,7 @@ class InstansiController extends Controller
             ->addColumn('aksi', function ($row) {
                 $button = '<div class="btn-group">';
                 $button .= '<a href="' . route('instansi.edit', $row->id) . '" class="btn btn-sm btn-warning bi bi-pencil-square"> </a>';
-                $button .= '<button class="btn btn-sm btn-danger bi bi-trash" onclick="sw_delete(\'' . $row->id . '\')"></button>';
+                $button .= Route::has('instansi.destroy') && !$row->kategori()->exists() && !$row->layanan()->exists() ? '<a class="btn btn-sm btn-danger bi bi-trash" onclick="if(confirm(\'Hapus data ini \')){ deldata(\''.$row->id.'\');} "></a>' : '';
                 $button .= '</div>';
                 return $button;
             })
@@ -125,11 +126,11 @@ class InstansiController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Instansi $Instansi)
+    public function destroy(Instansi $instansi)
     {
-        if (!request()->isMethod('delete'))
+        if (!request()->isMethod('delete')){
             return back();
-            $Instansi->delete();
-        return to_route($this->module)->with('success', 'Berhasil dihapus');
+        }
+            $instansi->delete();
     }
 }

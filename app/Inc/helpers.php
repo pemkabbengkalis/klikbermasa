@@ -100,7 +100,11 @@ if (!function_exists('media_download')) {
         return $media_exists && isset($media_exists->file_path) && \Illuminate\Support\Facades\Storage::exists($media_exists->file_path) ? url($media . '?download=' . md5(request()->session()->getId())) : false;
     }
 }
-
+if (!function_exists('image_url')) {
+function image_url($path=null){
+   return parse_url(config('app.image_url'), PHP_URL_HOST).$path??'';
+}
+}
 
 if (!function_exists('media_exists')) {
     function media_exists($media)

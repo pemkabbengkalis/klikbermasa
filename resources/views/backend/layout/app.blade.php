@@ -23,6 +23,12 @@
         <button class="btn-close" type="button" data-bs-dismiss="alert"></button> {!!Session::get('success')!!}
       </div>
     @endif
+    <div class="alert alert-dismissible alert-success" style="display: none">
+        <button class="btn-close" type="button" data-bs-dismiss="alert"></button> <span></span>
+    </div>
+    <div class="alert alert-dismissible alert-danger" style="display: none">
+        <button class="btn-close" type="button" data-bs-dismiss="alert"></button> <span></span>
+    </div>
     @if(Session::has('warning'))
     <div class="alert alert-dismissible alert-warning">
         <button class="btn-close" type="button" data-bs-dismiss="alert"></button> {!!Session::get('warning')!!}

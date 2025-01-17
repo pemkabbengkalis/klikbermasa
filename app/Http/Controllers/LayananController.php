@@ -29,9 +29,9 @@ class LayananController extends Controller
             ->addIndexColumn()
             ->addColumn('aksi', function ($row) {
                 $button = '<div class="btn-group">';
-                $button .= Route::has('layanan.show') ? '<a href="' . route('layanan.show', $row->id) . '" class="btn btn-sm btn-info bi bi-eye"> </a>' : '';
                 $button .= Route::has('layanan.edit') ? '<a href="' . route('layanan.edit', $row->id) . '" class="btn btn-sm btn-warning bi bi-pencil-square"> </a>' : '';
-                $button .= Route::has('layanan.destroy') ? '<a class="btn btn-sm btn-danger bi bi-trash" onclick="sw_delete(\'' . $row->id . '\')"></a>' : '';
+
+                $button .= Route::has('layanan.destroy') ? '<a class="btn btn-sm btn-danger bi bi-trash" onclick="if(confirm(\'Hapus data ini \')){ deldata(\''.$row->id.'\');} "></a>' : '';
                 $button .= '</div>';
                 return $button;
             })
@@ -218,9 +218,10 @@ class LayananController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(Layanan $layanan) {
-        if (!request()->isMethod('delete'))
+        if (!request()->isMethod('delete')){
             return back();
+        }
         $layanan->delete();
-        return to_route($this->module)->with('success', 'Berhasil dihapus');
+
     }
 }

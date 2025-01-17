@@ -28,9 +28,8 @@ class KategoriController extends Controller
             ->addIndexColumn()
             ->addColumn('aksi', function ($row) {
                 $button = '<div class="btn-group">';
-                $button .= Route::has( 'kategori.show') ? '<a href="' . route('kategori.show', $row->id) . '" class="btn btn-sm btn-info bi bi-eye"> </a>' : '';
                 $button .= Route::has('kategori.edit') ? '<a href="' . route( 'kategori.edit', $row->id) . '" class="btn btn-sm btn-warning bi bi-pencil-square"> </a>' : '';
-                $button .= Route::has('kategori.destroy') && $row->layanan_count==0 ? '<a class="btn btn-sm btn-danger bi bi-trash" onclick="sw_delete(\'' . $row->id . '\')"></a>' : '';
+                $button .= Route::has('layanan.destroy') ? '<a class="btn btn-sm btn-danger bi bi-trash" onclick="if(confirm(\'Hapus data ini \')){ deldata(\''.$row->id.'\');} "></a>' : '';
                 $button .= '</div>';
                 return $button;
             })
@@ -128,9 +127,9 @@ class KategoriController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(Kategori $kategori) {
-        if (!request()->isMethod('delete'))
+        if (!request()->isMethod('delete')){
             return back();
+        }
         $kategori->delete();
-        return to_route($this->module)->with('success', 'Berhasil dihapus');
     }
 }

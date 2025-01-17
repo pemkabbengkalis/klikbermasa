@@ -19,4 +19,24 @@
     </div>
   </div>
 @include('backend.instansi.datatable')
+@push('scripts')
+<script>
+    function deldata(id) {
+        const url = `{{ route('instansi.destroy', ':id') }}`.replace(':id', id);
+        const data = {
+            _method: "DELETE",
+            _token: "{{ csrf_token() }}"
+        };
+
+        $.post(url, data, function(response) {
+            $('.alert-success').show();
+            $('.alert-success>span').text('Berhasil dihapus');
+            $('#datatable').DataTable().ajax.reload()
+        }).fail(function(error) {
+            $('.alert-danger').show();
+            $('.alert-danger>span').text('Gagal dihapus');
+        });
+    }
+</script>
+@endpush
 @endsection
