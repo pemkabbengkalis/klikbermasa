@@ -35,7 +35,7 @@ class ApiLayananController extends Controller
 
             $i['path'] = $row->slug;
             $i['icon'] = 'https://'.api_url($row->icon);
-            $i['name'] = $row->nama;
+            $i['nama'] = $row->nama;
             $i['jenis'] = 'LAYANAN_INSTANSI';
             $i['sort'] = $row->sort;
             array_push($list['data']['list_layanan'], $i);
@@ -69,18 +69,6 @@ class ApiLayananController extends Controller
         $list['data']['list_layanan'] = collect($list['data']['list_layanan'])->sortBy('sort');
         return response()->json($list);
 
-    }
-    function detail_informasi($request){
-        $query = Layanan::published()->find($request->detail_informasi);
-        if(empty($query)){
-            $data['code'] = 404;
-            $data['status'] = "Not Found";
-            } else {
-                $data['code'] = 200;
-                $data['status'] = "success";
-                $data['data'] = ['icon'=>'https://'.api_url($query->icon),'nama'=> $query->nama,'keterangan'=>$query->deskripsi] ;
-            }
-            return $data;
     }
     function detail($id=null) {
         if(!$id){
