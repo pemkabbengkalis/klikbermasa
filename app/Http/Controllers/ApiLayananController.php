@@ -33,77 +33,103 @@ class ApiLayananController extends Controller
         $list['data']['list_layanan'] = array();
         foreach($data as $row){
 
-            $i['id'] = $row->id;
+            $i['path'] = $row->slug;
             $i['icon'] = 'https://'.api_url($row->icon);
-            $i['name'] = $row->nama;
-            $i['jenis'] = $row->jenis;
-            $i['api_link'] = 'https://'.api_url('/api/layanan?detail_layanan='.$row->id);
-            $i['target'] = null;
+            $i['nama'] = $row->nama;
+            $i['jenis'] = 'LAYANAN_INSTANSI';
             $i['sort'] = $row->sort;
             array_push($list['data']['list_layanan'], $i);
 
             foreach($row->instansi->layanan->where('display_to_home',1)->where('status_layanan','published') as $r){
                 if($r->jenis=='INFORMASI'){
-                    $a['id'] = $r->id;
+                    $a['path'] = $r->slug;
                     $a['icon'] = 'https://'.api_url($r->icon);
                     $a['nama'] = $r->nama;
                     $a['jenis'] = $r->jenis;
-                    $a['api_link'] = 'https://'.api_url('/api/layanan?detail_informasi='.$r->id);;
-                    $a['target'] = null;
                     $a['sort'] = 100;
-                    array_push($list['data']['list_layanan'], $a);
-                }else{
-
-                $a['id'] = $r->id;
-                $a['icon'] = 'https://'.api_url($r->icon);
-                $a['nama'] = $r->nama;
-                $a['jenis'] = $r->jenis;
-                $a['api_link'] = $r->link;
-                $a['target'] = '_blank';
-                $a['sort'] = 100;
                 array_push($list['data']['list_layanan'], $a);
+                }elseif($r->jenis=='APLIKASI'){
+                    $app['link'] = $r->link;
+                    $app['icon'] = 'https://'.api_url($r->icon);
+                    $app['nama'] = $r->nama;
+                    $app['jenis'] = $r->jenis;
+                    $app['sort'] = 100;
+                array_push($list['data']['list_layanan'], $app);
+            }elseif($r->jenis=='API'){
+                $api['path'] = $r->slug;
+                $api['icon'] = 'https://'.api_url($r->icon);
+                $api['nama'] = $r->nama;
+                $api['jenis'] = $r->jenis;
+                $api['sort'] = 100;
+                array_push($list['data']['list_layanan'], $api);
             }
+
         }
         }
         $list['data']['list_layanan'] = collect($list['data']['list_layanan'])->sortBy('sort');
         return response()->json($list);
 
     }
-    function detail_informasi($request){
-        $query = Layanan::published()->find($request->detail_informasi);
-        if(empty($query)){
+    function detail($id=null) {
+        if(!$id){
             $data['code'] = 404;
             $data['status'] = "Not Found";
-            } else {
-                $data['code'] = 200;
-                $data['status'] = "success";
-                $data['data'] = ['icon'=>'https://'.api_url($query->icon),'nama'=> $query->nama,'keterangan'=>$query->deskripsi] ;
-            }
-            return $data;
-    }
-    function detail_layanan($request) {
-        $query = Kategori::with('instansi.layanan')->orderBy('sort')->find($request->detail_layanan);
-        if(empty($query)){
-        $data['code'] = 404;
-        $data['status'] = "Not Found";
-        } else {
+            return response()->json($data);
+        }
 
+        $query = Kategori::with('instansi.layanan')->orderBy('sort')->whereSlug($id)->first();
+        $query2 = Layanan::whereSlug($id)->first();
+        if($query){
             $data['code'] = 200;
             $data['status'] = "success";
             $data['data']['instansi'] = $query->instansi->nama;
             $data['data']['list_layanan'] = array();
-            foreach ($query->instansi->layanan->where('status_layanan','published') as $row) {
-                $i['id'] = $row->id;
-                $i['icon'] = 'https://'.api_url($row->icon);
-                $i['nama'] = $row->nama;
-                $i['keterangan'] = $row->deskripsi;
-                $i['jenis'] = $row->jenis;
-                $i['api_link'] = in_array($row->jenis, ['API', 'FORM']) ? 'https://'.api_url('/api/layanana?detail_layanan=' . $row->id) : $row->link;
-                array_push($data['data']['list_layanan'], $i);
+            foreach ($query->instansi->layanan->where('status_layanan','published') as $r) {
+                if($r->jenis=='INFORMASI'){
+                    $a['path'] = $r->slug;
+                    $a['icon'] = 'https://'.api_url($r->icon);
+                    $a['nama'] = $r->nama;
+                    $a['jenis'] = $r->jenis;
+                    $a['sort'] = 100;
+                array_push($data['data']['list_layanan'], $a);
+                }elseif($r->jenis=='APLIKASI'){
+                    $app['link'] = $r->link;
+                    $app['icon'] = 'https://'.api_url($r->icon);
+                    $app['nama'] = $r->nama;
+                    $app['jenis'] = $r->jenis;
+                    $app['sort'] = 100;
+                array_push($data['data']['list_layanan'], $app);
+            }elseif($r->jenis=='API'){
+                $api['path'] = $r->slug;
+                $api['icon'] = 'https://'.api_url($r->icon);
+                $api['nama'] = $r->nama;
+                $api['jenis'] = $r->jenis;
+                $api['sort'] = 100;
+                array_push($data['data']['list_layanan'], $api);
             }
+
+            }
+        }elseif($query2){
+
+                $data['code'] = 200;
+                $data['status'] = "success";
+                $data['data'] = [
+                    'icon'=>'https://'.api_url($query2->icon),
+                    'nama'=> $query2->nama,
+                    'jenis'=> $query2->jenis,
+                    'keterangan'=> $query2->deskripsi,
+
+                    ];
+                    if(in_array($query2->jenis,['API','APLIKASI'])){
+                        $data['data']['link'] = $query2->link;
+                    }
+        }else{
+            $data['code'] = 404;
+            $data['status'] = "Not Found";
         }
-        return $data;
+        return response()->json($data);
     }
+
     /**
      * Show the form for creating a new resource.
      */

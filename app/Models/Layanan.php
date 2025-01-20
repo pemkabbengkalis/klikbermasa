@@ -11,7 +11,7 @@ use App\Traits\Fileable;
 class Layanan extends Model
 {
     use HasFactory,HasUuids,SoftDeletes,Fileable;
-    protected $fillable = ['instansi_id', 'kategori_id', 'nama', 'deskripsi', 'jenis', 'jam_operasional', 'link', 'hits','display_to_home','status_layanan','published_at','icon'];
+    protected $fillable = ['instansi_id', 'kategori_id', 'nama', 'deskripsi', 'jenis', 'jam_operasional', 'link', 'hits','display_to_home','status_layanan','published_at','icon','slug'];
     public function formulir(){
         return $this->hasMany(FieldFormLayanan::class)->orderBy('urutan');
     }

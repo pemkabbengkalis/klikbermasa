@@ -72,6 +72,7 @@ class LayananController extends Controller
             'file' => 'nullable|image|mimes:jpg,png,jpeg,gif|max:2048',
             'instansi_id' => 'nullable|string',
         ]);
+        $data['slug'] = str($request->nama)->slug();
         if($request->user()->isAdmin()){
             $result = $layanan->create($data);
         }else{
@@ -135,6 +136,8 @@ class LayananController extends Controller
                 'display_to_home' => 'nullable|numeric',
                 'file' => 'nullable|image|mimes:jpg,png,jpeg,gif|max:2048',
         ]);
+        $valid['slug'] = str($request->nama)->slug();
+
             if ($layanan->update($valid)) {
 
                 if ($request->hasFile('file')) {
