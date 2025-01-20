@@ -20,7 +20,7 @@
                         <img src="{{ isset(json_decode(json_encode($data->user_data),true)[$row->field]) ? json_decode(json_encode($data->user_data),true)[$row->field] : '/noimage.webp' }}" height="100" alt="">
                         @endif
                         @else
-                      <input class="form-control" type="text" name="name" value="{{$data?->name}}" placeholder="Masukkan {{ str($row->field)->headline() }}">
+                      <input class="form-control" type="text" name="{{ $row->field }}" placeholder="Masukkan {{ str($row->field)->headline() }}">
                         @endif
                     </div>
                 </div>
