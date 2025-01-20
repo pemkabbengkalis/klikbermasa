@@ -62,6 +62,8 @@ class KategoriController extends Controller
             'file' => 'nullable|image|mimes:jpg,png,jpeg,gif|max:2048',
 
         ]);
+        $data['slug'] = str($request->nama)->slug();
+
         if($data = $kategori->create($data)){
             if ($request->hasFile('file')) {
                 $fname = $data->addFile([
@@ -105,7 +107,7 @@ class KategoriController extends Controller
             'file' => 'nullable|image|mimes:jpg,png,jpeg,gif|max:2048',
 
         ]);
-
+        $data['slug'] = str($request->nama)->slug();
         if ($data = $kategori->update($data)) {
             if ($request->hasFile('file')) {
                 $fname = $kategori->addFile([

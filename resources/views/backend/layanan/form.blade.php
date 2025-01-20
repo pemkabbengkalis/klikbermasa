@@ -93,15 +93,16 @@
                     </div>
                   </div>
                   @endif
-                  <div class="mb-3 row">
-                    <label class="form-label col-md-2">Tampil Dihalaman Utama</label>
+
+                @elseif($data->jenis=='API' || $data->jenis=='FORM')
+                @if($data->jenis=='API')
+                <div class="mb-3 row">
+                    <label class="form-label col-md-2">URL API</label>
                     <div class="col-md-10">
-                    @foreach(['Tidak','Ya'] as $k=> $row)
-                      <input {{$data && $data->display_to_home == $k ? 'checked':''}}  name="display_to_home" type="radio" value="{{$k}}"> {{$row}} &nbsp;&nbsp;&nbsp;
-                      @endforeach
+                      <input class="form-control"  name="link" type="text" placeholder="Masukkan Url API" value="{{$data?->link}}">
                     </div>
                   </div>
-                @elseif($data->jenis=='API' || $data->jenis=='FORM')
+                @else
                 <div class="mb-3 row">
                     <label class="form-label col-md-2">Daftar API</label>
                     <div class="col-md-12">
@@ -111,10 +112,19 @@
 
                     </div>
                   </div>
+                  @endif
                 @else
                 @endif
 
                 @endif
+                <div class="mb-3 row">
+                    <label class="form-label col-md-2">Tampil Dihalaman Utama</label>
+                    <div class="col-md-10">
+                    @foreach(['Tidak','Ya'] as $k=> $row)
+                      <input {{$data && $data->display_to_home == $k ? 'checked':''}}  name="display_to_home" type="radio" value="{{$k}}"> {{$row}} &nbsp;&nbsp;&nbsp;
+                      @endforeach
+                    </div>
+                  </div>
             </div>
             <div class="tile-footer text-end">
                 <div class="row">
