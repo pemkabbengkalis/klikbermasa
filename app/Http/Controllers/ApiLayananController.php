@@ -49,12 +49,11 @@ class ApiLayananController extends Controller
                     $a['sort'] = 100;
                 array_push($list['data']['list_layanan'], $a);
                 }elseif($r->jenis=='APLIKASI'){
-                    $app['path'] = $r->slug;
+                    $app['link'] = $r->link;
                     $app['icon'] = 'https://'.api_url($r->icon);
                     $app['nama'] = $r->nama;
                     $app['jenis'] = $r->jenis;
                     $app['sort'] = 100;
-                    $app['link'] = $r->link;
                 array_push($list['data']['list_layanan'], $app);
             }elseif($r->jenis=='API'){
                 $api['path'] = $r->slug;
@@ -106,12 +105,11 @@ class ApiLayananController extends Controller
                     $a['sort'] = 100;
                 array_push($data['data']['list_layanan'], $a);
                 }elseif($r->jenis=='APLIKASI'){
-                    $app['path'] = $r->slug;
+                    $app['link'] = $r->link;
                     $app['icon'] = 'https://'.api_url($r->icon);
                     $app['nama'] = $r->nama;
                     $app['jenis'] = $r->jenis;
                     $app['sort'] = 100;
-                    $app['link'] = $r->link;
                 array_push($data['data']['list_layanan'], $app);
             }elseif($r->jenis=='API'){
                 $api['path'] = $r->slug;
