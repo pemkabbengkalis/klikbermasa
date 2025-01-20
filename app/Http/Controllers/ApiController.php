@@ -43,7 +43,8 @@ class ApiController extends Controller
             'no_kk' => 'required|numeric|digits:16',
             'no_hp' => 'required|numeric|digits_between:10,13',
             'jenis_kelamin' => 'required|in:L,P',
-            'gambar_ktp' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'gambar_ktp' => 'required|image|mimes:jpeg,png,jpg',
+            'swafoto_ktp' => 'required|image|mimes:jpeg,png,jpg',
         ]);
         $validator->getTranslator()->setLocale('id');
         if ($validator->fails()) {
@@ -55,19 +56,35 @@ class ApiController extends Controller
         ]);
         $user = User::find(auth()->user()->id);
         if ($user->update($request->all())) {
-            // /media/lsdkjfjhsdfsdf.jpg
-           $fname =  $user->addFile([
-                'purpose'                  => 'gambar_ktp',
-                'file'                      => $request->file('gambar_ktp'),
-                'mime_type'=>['image/jpeg','image/png'],
-            ]);
-            $user->update([
-                'user_data' => array_merge(
-                    $user->user_data ?? [], 
-                    $request->get('user_data'),
-                    ['gambar_ktp' => $fname]
-                )
-            ]);
+            if($request->hasFile('gambar_ktp')) {
+                $sfname =  $user->addFile([
+                    'purpose'                  => 'gambar_ktp',
+                    'file'                      => $request->file('gambar_ktp'),
+                    'mime_type'=>['image/jpeg','image/png'],
+                ]);
+                $user->update([
+                    'user_data' => array_merge(
+                        $user->user_data ?? [], 
+                        $request->get('user_data'),
+                        ['gambar_ktp' => $sfname]
+                    )
+                ]);
+            }
+            if($request->hasFile('swafoto_ktp')) {
+                $fname =  $user->addFile([
+                    'purpose'                  => 'swafoto_ktp',
+                    'file'                      => $request->file('swafoto_ktp'),
+                    'mime_type'=>['image/jpeg','image/png'],
+                ]);
+                $user->update([
+                    'user_data' => array_merge(
+                        $user->user_data ?? [], 
+                        $request->get('user_data'),
+                        ['swafoto_ktp' => $fname]
+                    )
+                ]);
+            }
+            
             return response()->json(['status' => true, 'message' => 'Data berhasil disimpan']);
         }
 
