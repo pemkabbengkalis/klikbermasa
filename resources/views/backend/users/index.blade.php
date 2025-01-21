@@ -11,7 +11,7 @@
                   <th>NIK</th>
                   <th>Nama</th>
                   <th>Email</th>
-                  <th>Terkahir Masuk</th>
+                  <th>Riwayat</th>
                   <th>Status</th>
                   <th width="10px">Aksi</th>
                 </tr>

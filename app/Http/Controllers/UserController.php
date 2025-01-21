@@ -49,7 +49,7 @@ class UserController extends Controller implements HasMiddleware
                 return $button;
             })
             ->addColumn('last_login_time', function ($row) {
-                return '<code>Waktu : '.$row->last_login_at.'<br>IP : '.$row->last_lagin_ip.'</code>';
+                return '<code>Terdaftar : '.$row->created_at.'<br>Login Terakhir : '.$row->last_login_at.'<br>IP : '.$row->last_lagin_ip.'</code>';
             })
             ->addColumn('status', function ($row) {
                 return $row->status == '1' ? '<span class="badge bg-success">Aktif</span>' : '<span class="badge bg-danger">Nonaktif</span>';
