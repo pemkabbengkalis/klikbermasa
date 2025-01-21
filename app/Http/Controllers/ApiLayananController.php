@@ -149,7 +149,10 @@ class ApiLayananController extends Controller
         $data = collect($bapokting)->first();
         if($kecamatan){
             $data = collect($bapokting)
-            ->where('nama_kecamatan',$kecamatan)->first();
+            ->where('nama_kecamatan',str($kecamatan)->title())->first();
+            if(empty($data)){
+            $data = ['code'=>'200','status'=>'Data tidak ditemukan'];
+            }
         }
         return json_decode(json_encode($data,true));
     }
