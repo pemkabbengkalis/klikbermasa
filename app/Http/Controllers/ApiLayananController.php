@@ -146,13 +146,22 @@ class ApiLayananController extends Controller
             return null;
         });
         $kecamatan = request('kecamatan',null);
-        $data = collect($bapokting)->first();
         if($kecamatan){
             $data = collect($bapokting)
             ->where('nama_kecamatan',str($kecamatan)->title())->first();
             if(empty($data)){
             $data = ['code'=>'200','status'=>'Data tidak ditemukan'];
+            }else{
+                $data['code'] = 200;
+        $data['status'] = "success";
+            $data['data'] = $data;
+
             }
+        }else{
+        $data['code'] = 200;
+        $data['status'] = "success";
+        $data['data'] = collect($bapokting)->first();
+
         }
         return json_decode(json_encode($data,true));
     }
