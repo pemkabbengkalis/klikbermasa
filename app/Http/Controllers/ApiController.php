@@ -38,6 +38,23 @@ class ApiController extends Controller
 
         return response()->json(['status' => false, 'message' => 'Data gagal disimpan'], 500);
     }
+
+    //get profil
+    public function get_profil() {
+        $user = User::find(auth()->user()->id);
+        $data = [
+            'id' => $user->id,
+            'nik' => $user->nik,
+            'name' => $user->name,
+            'email' => $user->email,
+            'status' => $user->status,
+            'jenis_kelamin' => $user->jenis_kelamin,
+            'gambar_ktp' => $user->gambar_ktp,
+            'swafoto_ktp' => $user->swafoto_ktp,
+        ];
+        return response()->json(['status' => true, 'data' => $data]);
+    }
+
     public function store_profil(Request $request) {
         $validator = Validator::make($request->all(), [
             'no_kk' => 'required|numeric|digits:16',
@@ -101,8 +118,9 @@ class ApiController extends Controller
             return response()->json(['status'=>false,'pesan'=>'Password salah']);
         }
 
-        if (auth()->attempt($credentials)) {
+        if (auth()->attempt($credentials) && Auth::user()->status == 'active') {
             $token= $cekuser->createToken(uniqid().now())->plainTextToken;
+            Auth::user()->update(['last_login_time'=>now(),'last_login_ip'=>$request->ip()]);
             $response=[
                 'status'=>true,
                 'message'=>'Login berhasil',
@@ -110,7 +128,7 @@ class ApiController extends Controller
                     'user'=>$cekuser,
                     'token'=>$token,
                 ],
-            ];
+            ];  
         }
         return response()->json($response ?? ['status'=>false, 'message'=>'Login failed']);
     }
