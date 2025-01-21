@@ -87,6 +87,21 @@ class User extends Authenticatable
         return $this->user_data['no_hp'] ?? null;
     }
 
+    public function getNoKkAttribute()
+    {
+        return $this->user_data['no_kk'] ?? null;
+    }
+    
+    public function getGambarKtpAttribute()
+    {
+        return $this->user_data['gambar_ktp'] ? api_url($this->user_data['gambar_ktp']) : null;
+    }
+
+    public function getSwafotoKtpAttribute()
+    {
+        return $this->user_data['swafoto_ktp'] ? api_url($this->user_data['swafoto_ktp']) : null;
+    }
+
     public function getJenisKelaminAttribute()
     {
         return $this->user_data['jenis_kelamin'] ?? null;

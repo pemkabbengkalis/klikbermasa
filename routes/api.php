@@ -14,5 +14,6 @@ Route::get('layanan',[App\Http\Controllers\ApiLayananController::class,'index'])
 Route::get('layanan/{id?}',[App\Http\Controllers\ApiLayananController::class,'detail']);
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::get('get_profil',[App\Http\Controllers\ApiController::class,'get_profil'])->name('get_profil');
     Route::post('store_profil',[App\Http\Controllers\ApiController::class,'store_profil'])->name('store_profil');
 });
