@@ -54,6 +54,8 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
     'api_url' => env('APP_API_URL', 'http://image.localhost'),
+    'api_whatsapp' => env('APP_API_WHATSAPP', 'http://localhost'),
+    'whatsapp_session' => env('WHATSAPP_SESSION', NULL),
 
     /*
     |--------------------------------------------------------------------------

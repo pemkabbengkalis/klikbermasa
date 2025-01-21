@@ -105,7 +105,40 @@ function api_url($path=null){
    return parse_url(config('app.api_url'), PHP_URL_HOST).$path??'';
 }
 }
+if (!function_exists('send_whatsapp')) {
+    function send_whatsapp($arr){
+       if(!is_array($arr)){
+        return;
+       }
+       $phone = isset($arr['number']) ? convertToInternational($arr['number']) : null;
+       $message = isset($arr['message']) ? strip_tags($arr['message']) : null;
 
+       if($phone && $message){
+       $response = \Illuminate\Support\Facades\Http::get(config('app.api_whatsapp'), [
+        'session' => config('app.whatsapp_session'),
+        'to' => $phone,
+        'text' => $message,
+    ]);
+        if($response->status()=='200'){
+            return $response->json();
+        }
+       }
+    }
+}
+
+if (!function_exists('convertToInternational')) {
+    function convertToInternational($phoneNumber) {
+        // Pastikan nomor hanya angka
+        $phoneNumber = preg_replace('/[^0-9]/', '', $phoneNumber);
+
+        // Cek jika nomor diawali '0', ubah menjadi '62'
+        if (substr($phoneNumber, 0, 1) === '0') {
+            $phoneNumber = '62' . substr($phoneNumber, 1);
+        }
+
+        return $phoneNumber;
+    }
+}
 if (!function_exists('media_exists')) {
     function media_exists($media)
     {

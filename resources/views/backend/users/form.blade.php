@@ -13,14 +13,14 @@
             <div class="tile-body pt-3">
                 @foreach(json_decode(json_encode(config('master.user_data'))) as $row)
                 <div class="mb-3 row">
-                    <label class="form-label col-md-2">{{ str($row->field)->upper() }}</label>
+                    <label class="form-label col-md-2">{{ str(str($row->field)->headline())->upper() }}</label>
                     <div class="col-md-10">
                         @if($row->type=='file')
                         @if($data)
                         <img src="{{ isset(json_decode(json_encode($data->user_data),true)[$row->field]) ? json_decode(json_encode($data->user_data),true)[$row->field] : '/noimage.webp' }}" height="100" alt="">
                         @endif
                         @else
-                      <input class="form-control" type="text" name="{{ $row->field }}" placeholder="Masukkan {{ str($row->field)->headline() }}">
+                        <b>{{ isset(json_decode(json_encode($data->user_data),true)[$row->field]) ? json_decode(json_encode($data->user_data),true)[$row->field] : '-' }}</b>
                         @endif
                     </div>
                 </div>
@@ -28,33 +28,34 @@
                 <div class="mb-3 row">
                     <label class="form-label col-md-2">Nama Lengkap</label>
                     <div class="col-md-10">
-                      <input class="form-control" type="text" name="name" value="{{$data?->name}}" placeholder="Masukkan Nama User">
+                      <b>{{$data?->name}}</b>
                     </div>
                 </div>
                   <div class="mb-3 row">
                     <label class="form-label col-md-2">Email</label>
                     <div class="col-md-10">
-                      <input class="form-control" type="email" name="email" value="{{$data?->email}}" placeholder="Masukkan Email">
+                    <b>{{$data?->email ?? '-'}}</b>
                     </div>
                   </div>
-                  <div class="mb-3 row">
-                    <label class="form-label col-md-2">Status</label>
-                    <div class="col-md-10">
-                        @foreach(['1'=>'Aktif','0'=>'Nonaktif'] as $k=>$row)
-                      <input type="radio" name="status" value="{{$k}}" {{$data && $data->status==$k ? 'checked':''}}> {{$row}}
-                      @endforeach
-                    </div>
-                  </div>
+
                   <div class="mb-3 row">
                     <label class="form-label col-md-2">NIK</label>
                     <div class="col-md-10">
-                      <input class="form-control" type="text" name="username" value="{{$data?->nik}}" placeholder="Masukkan Username">
+                      <b>{{$data?->nik}}</b>
                     </div>
                   </div>
                   <div class="mb-3 row">
                     <label class="form-label col-md-2">Password</label>
                     <div class="col-md-10">
                       <input class="form-control" type="password" name="password" placeholder="Masukkan Password">
+                    </div>
+                  </div>
+                  <div class="mb-3 row">
+                    <label class="form-label col-md-2">Status</label>
+                    <div class="col-md-10">
+                        @foreach(['1'=>'Aktif','0'=>'Nonaktif'] as $k=>$row)
+                      <input type="radio" name="status" value="{{$k}}" {{$data && $data->status==$k ? 'checked':''}}> {{$row}} &nbsp;&nbsp;
+                      @endforeach
                     </div>
                   </div>
             </div>

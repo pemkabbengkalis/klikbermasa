@@ -21,7 +21,7 @@ class WebMiddleware
         if(Route::currentRouteName() == 'login' && $request->getHost() == api_url()){
             return response()->json(['code'=>'403','status'=>'User Unauthorized']);
         }
-        abort_if( $request->is('/') && $request->getHost() == api_url(),'403','dffd');
+        abort_if( $request->is('/') && $request->getHost() == api_url(),'404');
 
         if($request->segment(1) == 'api' || Route::currentRouteName() == 'stream' ){
             abort_if($request->segment(1) == 'api' && $request->getHost() != api_url(),'404','Not Found');
