@@ -6,6 +6,8 @@ use App\Models\Layanan;
 use App\Models\Kategori;
 use App\Models\ApiLayanan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Cache;
 
 class ApiLayananController extends Controller
 {
@@ -133,9 +135,23 @@ class ApiLayananController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function bapokting()
     {
-        //
+
+        $bapokting = Cache::remember("bapokting", 60 * 60 * 24, function () {
+            $url = Http::get('https://bapokting.bengkaliskab.go.id/api/harga-barang');
+            if($url->status()=='200'){
+                return $url->json();
+            }
+            return null;
+        });
+        $kecamatan = request('kecamatan',null);
+        $data = collect($bapokting)->first();
+        if($kecamatan){
+            $data = collect($bapokting)
+            ->where('nama_kecamatan',$kecamatan)->first();
+        }
+        return json_decode(json_encode($data,true));
     }
 
     /**

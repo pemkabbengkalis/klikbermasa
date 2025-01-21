@@ -46,9 +46,9 @@
                     </div>
                   </div>
                   <div class="mb-3 row">
-                    <label class="form-label col-md-2">Username</label>
+                    <label class="form-label col-md-2">NIK</label>
                     <div class="col-md-10">
-                      <input class="form-control" type="text" name="username" value="{{$data?->username}}" placeholder="Masukkan Username">
+                      <input class="form-control" type="text" name="username" value="{{$data?->nik}}" placeholder="Masukkan Username">
                     </div>
                   </div>
                   <div class="mb-3 row">

@@ -9,6 +9,7 @@ Route::get('/user', function (Request $request) {
 
 Route::match(['get', 'post'],'login',[App\Http\Controllers\ApiController::class,'login']);
 Route::match(['get', 'post'],'register',[App\Http\Controllers\ApiController::class,'register']);
+Route::get('bapokting',[App\Http\Controllers\ApiLayananController::class,'bapokting']);
 Route::get('layanan',[App\Http\Controllers\ApiLayananController::class,'index']);
 Route::get('layanan/{id?}',[App\Http\Controllers\ApiLayananController::class,'detail']);
 
