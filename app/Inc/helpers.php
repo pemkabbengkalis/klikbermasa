@@ -114,14 +114,14 @@ if (!function_exists('send_whatsapp')) {
        $message = isset($arr['message']) ? strip_tags($arr['message']) : null;
 
        if($phone && $message){
-       $response = \Illuminate\Support\Facades\Http::get(config('app.api_whatsapp'), [
-        'session' => config('app.whatsapp_session'),
-        'to' => $phone,
-        'text' => $message,
-    ]);
-        if($response->status()=='200'){
-            return $response->json();
-        }
+            $response = \Illuminate\Support\Facades\Http::get(config('app.api_whatsapp'), [
+                'session' => config('app.whatsapp_session'),
+                'to' => $phone,
+                'text' => $message,
+            ]);
+            if($response->status()=='200'){
+                return $response->json();
+            }
        }
     }
 }

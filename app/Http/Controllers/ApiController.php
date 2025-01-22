@@ -133,6 +133,22 @@ class ApiController extends Controller
         return response()->json($response ?? ['status'=>false, 'message'=>'Login failed']);
     }
 
+    public function verifikasi_whatsapp(Request $request){
+        $validator = Validator::make($request->all(), [
+            'no' => 'required|numeric|digits_between:10,13',
+        ]);
+        $no = convertToInternational($request->no);
+        $otp = rand(100000,999999);
+        $send = send_whatsapp([
+            'number' => $no,
+            'message' => 'Kode OTP anda adalah '.$otp.' harap jangan memberitahukan kode ini kepada siapapun.',
+        ]);
+        if($send){
+            return response()->json(['status'=>true,'message'=>'Kode OTP berhasil dikirim','otp'=>$otp]);
+        }
+        return response()->json(['status'=>false,'message'=>'Kode OTP gagal dikirim']);
+    }
+
     function formulir_layanan(Request $request) {
         $data = Layanan::with('formulir_active','api')->find($request->id_layanan);
         if ($data) {
