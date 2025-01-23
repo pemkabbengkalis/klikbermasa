@@ -37,6 +37,7 @@ class LoginController extends Controller
     }
     public function loginForm(Request $request)
     {
+        generate_otp('082315192789');
         if(Auth::check()){
             return to_route('dashboard');
         }

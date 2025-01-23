@@ -1,5 +1,6 @@
 <?php
 
+
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
@@ -105,13 +106,16 @@ function api_url($path=null){
    return parse_url(config('app.api_url'), PHP_URL_HOST).$path??'';
 }
 }
+if (!function_exists('generate_otp')) {
+function generate_otp($number){
+    (new \App\Http\Controllers\Api\OtpController)->generateOtp($number);
+}
+}
 if (!function_exists('send_whatsapp')) {
-    function send_whatsapp($arr){
-       if(!is_array($arr)){
-        return;
-       }
-       $phone = isset($arr['number']) ? convertToInternational($arr['number']) : null;
-       $message = isset($arr['message']) ? strip_tags($arr['message']) : null;
+    function send_whatsapp($number,$msg){
+
+       $phone = convertToInternational($number) ;
+       $message = strip_tags($msg);
 
        if($phone && $message){
             $response = \Illuminate\Support\Facades\Http::get(config('app.api_whatsapp'), [
